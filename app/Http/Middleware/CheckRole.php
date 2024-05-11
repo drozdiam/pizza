@@ -17,6 +17,9 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
+        if(!request("Authorization")){
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
         $user = JWTAuth::parseToken()->authenticate();
         if ($user->role_id !== $role) {
