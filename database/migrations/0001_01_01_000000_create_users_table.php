@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->unsignedBigInteger('role_id')->default('1');
             $table->string('email')->unique();
-            $table->integer('phone')->unique();
-            $table->string('city');
+            $table->string('phone')->unique();
             $table->string('default_address');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
