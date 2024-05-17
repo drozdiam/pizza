@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProductType;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +26,6 @@ class RoleSeeder extends Seeder
             ]
         ];
 
-        Role::insert($roles);
+        ProductType::insert($roles);
     }
 }

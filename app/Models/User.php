@@ -41,9 +41,9 @@ class User extends Authenticatable implements JWTSubject
      * RELATIONS
      */
 
-    public function role() : BelongsTo
+    public function role() : \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
     /**
@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [
-            'role' => $this->role()->name,
+            'role' => $this->role()->first()->name,
         ];
     }
 }
