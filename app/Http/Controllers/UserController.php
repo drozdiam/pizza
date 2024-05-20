@@ -2,63 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Requests\User\UserUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Routing\Controller;
+
 class UserController extends Controller
 {
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
+     * Display a listing of the resource.
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
-    }
-    /**
-    * Get a JWT via given credentials.
-    *
-    * @return \Illuminate\Http\JsonResponse
-    */
-    public function login(LoginRequest $request){
+        $user = User::with('role')->paginate(10);
 
-        $credentials = $request->validated();
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        return $this->respondWithToken($token);
+        return response()->json($user);
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Store a newly created resource in storage.
      */
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function store(UserStoreRequest $request)
     {
-        auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        $user = User::create($request->validated());
+
+        return response()->json($user->with('role')->latest()->first());
     }
 
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Display the specified resource.
      */
-    public function refresh()
+    public function show(string $id)
     {
-        return $this->respondWithToken(auth()->refresh());
+        $user = User::with('role')->findOrFail($id);
+
+        return response()->json($user);
     }
 
-    protected function respondWithToken($token)
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UserUpdateRequest $request, string $id)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL()
-        ]);
+        $request->validated();
+        $user = User::with('role')->find($id);
+        $user->update($request->all());
+
+        return response()->json($user, 201);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json('deleted');
     }
 }

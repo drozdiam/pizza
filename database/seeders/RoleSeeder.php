@@ -26,6 +26,6 @@ class RoleSeeder extends Seeder
             ]
         ];
 
-        ProductType::insert($roles);
+        Role::insert($roles);
     }
 }

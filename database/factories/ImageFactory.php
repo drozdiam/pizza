@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Images;
-use App\Models\Products;
+use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Images>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
  */
-class ImagesFactory extends Factory
+class ImageFactory extends Factory
 {
     /**
      * Define the model's default state.

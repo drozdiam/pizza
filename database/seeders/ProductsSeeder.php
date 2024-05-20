@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Images;
-use App\Models\Products;
+use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class ProductsSeeder extends Seeder
@@ -13,10 +13,10 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        $products = Products::factory()->count(20)->create();
+        $products = Product::factory()->count(20)->create();
 
         foreach ($products as $product) {
-            Images::factory()->count(3)->create(['product_id' => $product->id]);
+            Image::factory()->count(3)->create(['product_id' => $product->id]);
         }
     }
 }
