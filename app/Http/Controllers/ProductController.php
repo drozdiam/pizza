@@ -14,9 +14,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : object
+    public function index(Request $request) : object
     {
-        $products = Product::with('images', 'productType')->paginate(10);
+        $perPage = $request->query('page', 10);
+        if (!is_numeric($perPage) || $perPage <= 0) {
+            return response()->json(['message' => 'not found'], 404);
+        }
+
+        $products = Product::with('images', 'productType')->paginate($perPage);
 
         return response()->json($products);
     }
@@ -64,4 +69,5 @@ class ProductController extends Controller
 
         return response()->json('deleted');
     }
+
 }

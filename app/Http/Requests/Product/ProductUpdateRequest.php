@@ -23,7 +23,7 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|required|string|max:255',
-            'description' => 'sometimes|required|text',
+            'description' => 'sometimes|required|string',
             'price' => 'sometimes|required|decimal',
             'product_type_id' => 'sometimes|required|integer',
             'is_active' => 'sometimes|required|boolean',

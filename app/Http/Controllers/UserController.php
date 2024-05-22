@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
@@ -12,9 +13,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): object
     {
-        $user = User::with('role')->paginate(10);
+        $perPage = $request->query('page', 10);
+        if (!is_numeric($perPage) || $perPage <= 0) {
+            return response()->json(['message' => 'not found'], 404);
+        }
+
+        $user = User::with('role')->paginate($perPage);
 
         return response()->json($user);
     }

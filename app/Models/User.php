@@ -28,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'role_id',
         'default_address',
         'password',
+        'timestamps',
     ];
 
     /**
@@ -40,6 +41,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
         'role_id',
+        'updated_at'
     ];
 
     /**
